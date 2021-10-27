@@ -1,0 +1,56 @@
+.settings-item {
+  font-size: 16px;
+  font-weight: bold;
+  max-width: 400px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.settings-toggle-item {
+  width: 400px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.settings-toggle-language{
+  display: flex;
+}
+
+
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.settings-container {
+  overflow-y: scroll;
+  width: 100%;
+  background-color: transparent;
+  position: relative;
+} 
+
+.gear-background {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  opacity: 40%;
+  width: 80%;
+}
+
+@media only screen and (max-width: 600px)  {
+  .settings-container {
+    width: calc(100%-36px);
+  }
+
+  .settings-toggle-item {
+    width: 100%;
+  }
+
+  .toggle-buttons-gap {
+    height: 46px !important;
+    width: 46px !important;
+  }
+}

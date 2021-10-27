@@ -1,0 +1,358 @@
+.game-page-container {
+  display: flex;
+  flex-direction: column;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  column-gap: 12px;
+  grid-template-rows: auto;
+  grid-template-areas: 'scoreboard play-area';
+}
+
+.scoreboard {
+  grid-area: scoreboard;
+  width: 300px;
+
+  margin-top: -20px;
+  position: relative;
+}
+
+.scoreboard-container-small {
+  max-width: 100% !important;
+  width: 100% !important;
+  height: 560px !important;
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scoreboard-container-small::-webkit-scrollbar {
+  max-width: 320px;
+  display: none; /* Safari and Chrome */
+}
+
+.scoreboard-container-small .css-p0t0kz-MuiTableContainer-root {
+  height: 420px !important;
+}
+
+.play-area {
+  grid-area: play-area;
+  background-color: #efefef;
+  border-radius: 16px;
+  height: 560px;
+  display: grid;
+  grid-template-rows: 4fr 4fr;
+  column-gap: 12px;
+  grid-template-areas:
+    'game-display'
+    'option-display';
+}
+
+.play-area-dark {
+  background-color: #2e2e2e;
+}
+.game-display {
+  background-color: white;
+  border-radius: 16px;
+  height: 320px;
+  margin: 20px;
+}
+
+.game-display-dark {
+  background-color: #3a3a3a;
+  border-radius: 16px;
+  height: 320px;
+  margin: 20px;
+}
+
+.option-display {
+  grid-area: option-display;
+  display: flex;
+  justify-content: center;
+}
+
+.game-buttons-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 12px;
+  row-gap: 12px;
+  grid-template-rows: auto;
+  grid-template-areas: 'operations-container controls-container';
+}
+
+.operations-container {
+  grid-area: operations-container;
+  max-width: calc(100vw - 108px);
+}
+
+.controls-container {
+  grid-template-areas: controls-container;
+  max-width: calc(100vw - 108px);
+}
+
+@media screen and (max-width: 900px) {
+  .game-padding {
+    padding: 0;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .game-page-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 12px;
+    grid-template-rows: auto;
+    grid-template-areas:
+      'play-area'
+      'scoreboard';
+  }
+
+  .play-area {
+    max-width: calc(100vw - 64px) !important;
+  }
+
+  .scoreboard {
+    width: 100% !important;
+  }
+  .scoreboard-container-small {
+    /* max-width: 100% !important; */
+    /* width: 100% !important; */
+    height: 100% !important;
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .css-p0t0kz-MuiTableContainer-root {
+    height: 100% !important;
+    max-width: calc(100vw - 88px) !important;
+  }
+
+  .game-buttons-container {
+    max-width: 400px;
+    padding: 20px;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr;
+    column-gap: 12px;
+    row-gap: 12px;
+    grid-template-rows: auto;
+    grid-template-areas:
+      'operations-container'
+      ' controls-container';
+  }
+
+  .play-area {
+    height: 700px;
+  }
+}
+
+/* Player Score */
+
+.player-1-logo {
+  height: 48px;
+  width: 48px;
+  margin-right: 8px;
+  background-color: #d14835;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+.player-1-name {
+  grid-area: player-1-name;
+  height: 64px;
+  margin: 0 0 24px;
+  padding: 8px;
+  background-color: #f3c18e;
+  display: flex;
+  border-radius: 32px 0 0 32px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+}
+
+.player-1-score {
+  position: absolute;
+  right: 12px;
+  display: flex;
+  align-self: center;
+  font-weight: bold;
+}
+
+.player-2-logo {
+  display: flex;
+  height: 48px;
+  width: 48px;
+  margin-left: 8px;
+  background-color: #d14835;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+.player-2-name {
+  grid-area: player-2-name;
+  height: 64px;
+  margin: 0 0 24px;
+  padding: 8px;
+  background-color: #f3c18e;
+  display: flex;
+  border-radius: 0 32px 32px 0;
+  display: flex;
+  justify-content: flex-end;
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  position: relative;
+}
+
+.player-2-score {
+  position: absolute;
+  left: 12px;
+  display: flex;
+  align-self: center;
+  font-weight: bold;
+}
+
+.player-score-name {
+  font-size: 20px;
+}
+
+.player-score-container {
+  color: #000;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 4px;
+  row-gap: 12px;
+  grid-template-rows: auto;
+  grid-template-areas: 'player-1-name player-2-name';
+}
+
+/* Game dislpay styles */
+
+.working-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 240px;
+  font-size: 24px;
+  justify-self: center;
+  margin: 32px auto;
+}
+.number-slot {
+  height: 56px;
+  width: 56px;
+  background-color: #dddddd;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.operator-slot {
+  height: 36px;
+  width: 36px;
+  background-color: #dddddd;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.countdown-timer {
+}
+
+.ready-timer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.question-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+}
+
+.correct-status {
+  color: #57cd27;
+  text-align: center;
+}
+
+.wrong-status {
+  color: #c84e4e;
+  text-align: center;
+}
+
+/* css for RoundEnd conponent */
+.round-end {
+  padding: 32px;
+  height: 100%;
+}
+
+.round-end-options-container {
+  width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-result {
+  display: flex;
+  justify-content: space-between;
+}
+.player-name {
+  grid-area: player-name;
+}
+
+.player-time {
+  grid-area: player-time;
+}
+.show-winner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-top: 48px;
+}
+
+/* css for GameEnd conponent */
+.game-end {
+  padding: 32px;
+  height: 100%;
+}
+
+@media screen and (max-width: 600px) {
+  .player-score-name {
+    display: none;
+  }
+}
+
+/* css for Solution conponent */
+.show-solution {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+/* css for waiting screen */
+
+.waiting-screen-container {
+  padding: 0 16px;
+}
+
+.waiting-screen-container h4 {
+  margin: 16px 0 4px 0;
+  color: #F56F54;
+}

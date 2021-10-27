@@ -1,0 +1,43 @@
+.MuiToggleButton-root:hover {
+  filter: brightness(85%);
+}
+
+.Mui-selected.MuiToggleButton-secondary {
+  background-color: #f56f54 !important;
+  color: black !important;
+}
+
+.toggle-buttons-gap {
+  justify-content: space-between;
+}
+
+.operation-button {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 8px !important;
+  font-size: 24px !important;
+}
+
+.button-row {
+  margin-bottom: 12px !important;
+  justify-content: center !important;
+}
+
+.button-row-space-between {
+  margin-bottom: 12px !important;
+  justify-content: space-between !important;
+}
+
+.rigid-button {
+  height: 48px;
+  border-radius: 8px !important;
+  justify-content: space-between;
+}
+
+.css-jibmk2-MuiStack-root {
+  overflow-x: scroll;
+}
+
+.css-jibmk2-MuiStack-root::-webkit-scrollbar {
+  display: none;
+}

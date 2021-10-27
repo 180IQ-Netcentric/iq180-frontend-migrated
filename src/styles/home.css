@@ -1,0 +1,152 @@
+.home-content-container {
+  position: relative;
+  width: 100%;
+}
+
+.game-description {
+  margin-left: 32px;
+  margin-top: 16px;
+  position: absolute;
+  top: 0;
+  max-width: 320px;
+  grid-area: info;
+}
+
+.game-cover {
+  min-height: 30%;
+  padding-top: 100px;
+  position: relative;
+  top: 0;
+  display: flex;
+  justify-content: right;
+  justify-items: right;
+  grid-area: img;
+}
+
+.game-cover img {
+  display: flex;
+  float: right;
+  min-width: 80px;
+  max-width: 70%;
+  object-fit: cover;
+  margin-left: auto;
+}
+
+.scoreboard-container {
+  grid-area: scoreboard;
+  /* color: #000; */
+  max-width: inherit;
+  background-color: #ffe2b8;
+  border-radius: 15px;
+  padding: 0px;
+}
+
+.scoreboard-container-dark {
+  grid-area: scoreboard;
+  max-width: inherit;
+  background-color: #2e2e2e;
+  border-radius: 15px;
+  padding: 0px;
+}
+
+.tutorial-container {
+  grid-area: tutorial;
+  color: #000;
+  height: 328px;
+  width: 100%;
+  background-color: #f3f3f3;
+  border-radius: 15px;
+  padding: 0 12px;
+}
+
+.tutorial-container-dark {
+  grid-area: tutorial;
+  height: 328px;
+  width: 100%;
+  background-color: #2e2e2e;
+  border-radius: 15px;
+  padding: 0 12px;
+}
+
+.home-options-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 12px;
+  grid-template-rows: auto;
+  grid-template-areas: 'scoreboard tutorial';
+}
+
+.tips-box {
+  overflow-y: scroll;
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none;
+}
+
+.tips-box::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+.tips-selector {
+  margin-top: 26px;
+}
+
+@media only screen and (max-width: 900px) {
+  .game-cover {
+    padding-top: 200px;
+  }
+  .home-options-container {
+    display: grid;
+    grid-template-columns: 100%;
+    row-gap: 12px;
+    grid-template-rows: auto;
+    grid-template-areas:
+      'scoreboard'
+      'tutorial';
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .home-content-container {
+    display: block;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+      'info'
+      'img';
+  }
+
+  .game-description {
+    position: static;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .game-cover {
+    width: 100%;
+    padding-top: 0;
+  }
+
+  .game-cover img {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .scoreboard-container {
+    max-width: calc(100vw - 84px);
+  }
+
+  .home-options-container {
+    display: grid;
+    grid-template-columns: 100%;
+    row-gap: 12px;
+    grid-template-rows: auto;
+    grid-template-areas:
+      'scoreboard'
+      'tutorial';
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .scoreboard-container {
+    max-width: calc(100vw - 70px);
+  }
+}

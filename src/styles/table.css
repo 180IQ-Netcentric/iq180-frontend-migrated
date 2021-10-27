@@ -1,0 +1,15 @@
+.table-row {
+  background-color: transparent !important;
+}
+
+.table-row-divider:last-child td {
+  border: solid 1px  red;
+}
+.table-row-divider:last-child th  {
+  border: solid 1px  red;
+}
+
+.section-title {
+  padding: 0 0 0 16px;
+}
+

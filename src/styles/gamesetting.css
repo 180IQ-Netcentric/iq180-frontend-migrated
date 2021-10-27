@@ -1,0 +1,126 @@
+.match-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 12px;
+  grid-template-rows: auto;
+  grid-template-areas: 
+    "match-settings player-info";
+}
+
+.match-settings {
+  grid-area: match-settings;
+  width: 100%;
+}
+
+.player-info-container {
+  grid-area: player-info;
+  display: flex;
+  flex-direction: column;
+  margin-top: 34px;
+  align-items: flex-end;
+  width: 100%;
+  position: relative;
+  height: 440px;
+  /* justify-content: space-between; */
+}
+.player-info {
+  background-color: #F3C18E;
+  color: #000;
+  padding: 20px;
+  border-radius: 16px;
+  width: 320px;
+  height: 140px;
+  margin-top: 32px;
+  /* display: inline-block; */
+  position: relative;
+  right: 0;
+}
+
+.player-score-column {
+  
+  display: flex;
+  justify-content: space-between;
+  margin-left: 40px;
+
+}
+.score-category {
+  grid-area: score-category;
+  margin-bottom: 8px;
+  
+}
+.score-value {
+  grid-area: score-value;
+}
+
+.player-card-header {
+  display: flex;
+  margin-bottom: 12px;
+  align-items: center;
+}
+
+.player-card-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 12px;
+}
+
+.player-icon {
+  background-color: #D14835;
+  height: 28px;
+  width: 28px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+}
+
+
+.game-start-button-match {
+  width: 100%;
+  max-width: 320px;
+  margin-top: 48px !important;
+}
+
+@media screen and (max-width: 900px) {
+  .match-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 12px;
+    grid-template-rows: auto;
+    grid-template-areas: 
+      "match-settings"
+      "player-info";
+  }
+
+  .player-info-container {
+    grid-area: player-info;
+    align-items: flex-start;
+  }
+
+  .player-info {
+    /* width: 100%; */
+    width: 400px;
+  }
+
+  .game-start-button-match {
+    max-width: 400px !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .player-info {
+    width: 100%;
+    
+  }
+
+  .settings-item {
+    max-width: 100% !important;
+  }
+
+  .game-start-button-match {
+    max-width: 100% !important;
+  }
+
+}
