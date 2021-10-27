@@ -1,15 +1,15 @@
-import React from "react";
-import { useTranslation } from "react-i18next";
-import Tips from "../../../components/tips/Tips";
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import Tips from '../../../components/tips/Tips'
 
 const WaitingScreen = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   return (
-    <div className="waiting-screen-container">
-      <h4>{t("72")}</h4>
+    <div className='waiting-screen-container'>
+      <h4>{t('72')}</h4>
       <Tips />
     </div>
-  );
-};
+  )
+}
 
-export default WaitingScreen;
+export default WaitingScreen
