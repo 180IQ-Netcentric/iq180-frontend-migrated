@@ -24,6 +24,7 @@ const Lobby = () => {
     updateSettings,
     playerInfos,
     setGameInfo,
+    setPlayerInfos,
   } = useContext(SocketContext)
   const history = useHistory()
 
@@ -41,6 +42,7 @@ const Lobby = () => {
 
   const leaveLobby = () => {
     history.push('/')
+    setPlayerInfos([])
     socket?.emit('disconnectUser', user)
   }
 
@@ -55,22 +57,22 @@ const Lobby = () => {
       { forceNew: true }
     )
     setSocket(newSocket)
-  }, [])
 
-  useEffect(() => {
-    history.push('/')
-    history.push('/lobby')
+    newSocket.on('updatePlayerList', () => {
+      if (user && playerInfos && playerInfos.length < 1) {
+        history.push('/')
+        history.push('/lobby')
+      }
+    })
   }, [])
 
   useEffect(() => {
     if (!socket) return
-    if (socket && user) {
-      setGameInfo(undefined)
-      client.get('/userinfo').then((res) => {
-        const newUserInfo = res.data
-        if (socket.id) joinRoom({ ...userToUserInfo(newUserInfo, socket.id) })
-      })
-    }
+    setGameInfo(undefined)
+    client.get('/userinfo').then((res) => {
+      const newUserInfo = res.data
+      if (socket.id) joinRoom({ ...userToUserInfo(newUserInfo, socket.id) })
+    })
   }, [socket])
 
   return (
@@ -155,7 +157,7 @@ const Lobby = () => {
             </div>
           </div>
           <div className='player-info-container'>
-            <div className='welcome-player'>welcome player</div>
+            <div className='welcome-player'>{t('105')}</div>
             <div className='player-info'>
               {user && (
                 <PlayerInfoCard
