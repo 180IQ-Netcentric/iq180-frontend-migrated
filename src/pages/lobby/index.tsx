@@ -67,13 +67,12 @@ const Lobby = () => {
   }, [])
 
   useEffect(() => {
-    if (!socket) return
     setGameInfo(undefined)
     client.get('/userinfo').then((res) => {
       const newUserInfo = res.data
-      if (socket.id) joinRoom({ ...userToUserInfo(newUserInfo, socket.id) })
+      if (socket?.id) joinRoom({ ...userToUserInfo(newUserInfo, socket?.id) })
     })
-  }, [socket])
+  }, [socket, user])
 
   return (
     <GameContainer>

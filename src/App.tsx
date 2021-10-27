@@ -21,6 +21,7 @@ import { I18nextProvider } from 'react-i18next'
 import i18n from './locales/i18n'
 import SocketContextProvider from './contexts/socketContext'
 import Socket from './components/Socket'
+import Admin from './pages/admin'
 
 function App() {
   const prefersColorSchemeDark = useMediaQuery('(prefers-color-scheme: dark)')
@@ -76,6 +77,7 @@ function App() {
                             <Route path='/signup' component={SignUp} exact />
                             <Route path='/game' component={Game} exact />
                             <Route path='/lobby' component={Lobby} exact />
+                            <Route path='/admin' component={Admin} exact />
                             <Route path='/404' component={Page404} />
                             <Redirect from='*' to='/404' />
                           </Switch>
