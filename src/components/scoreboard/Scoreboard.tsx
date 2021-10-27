@@ -1,43 +1,40 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import TableSortLabel from "@mui/material/TableSortLabel";
-import Paper from "@mui/material/Paper";
-import { client } from "../../config/axiosConfig";
-import { Theme, ThemeContext } from "../../contexts/themeContext";
-import {
-  AuthenticationErrorMessage,
-  scoreboardError,
-} from "../../utils/errors";
-import ErrorAlert from "../alerts/ErrorAlert";
-import { UserContext } from "../../contexts/userContext";
-import { useTranslation } from "react-i18next";
-import i18n from "../../locales/i18n";
-import { SocketContext } from "../../contexts/socketContext";
+import React, { useCallback, useContext, useEffect, useState } from 'react'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
+import TableHead from '@mui/material/TableHead'
+import TablePagination from '@mui/material/TablePagination'
+import TableRow from '@mui/material/TableRow'
+import TableSortLabel from '@mui/material/TableSortLabel'
+import Paper from '@mui/material/Paper'
+import { client } from '../../config/axiosConfig'
+import { Theme, ThemeContext } from '../../contexts/themeContext'
+import { AuthenticationErrorMessage, scoreboardError } from '../../utils/errors'
+import ErrorAlert from '../alerts/ErrorAlert'
+import { UserContext } from '../../contexts/userContext'
+import { useTranslation } from 'react-i18next'
+import i18n from '../../locales/i18n'
+import { SocketContext } from '../../contexts/socketContext'
 interface Data {
-  rank: number;
-  username: string;
-  win: number;
-  lose: number;
-  score: number;
+  rank: number
+  username: string
+  win: number
+  lose: number
+  score: number
 }
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
-    return -1;
+    return -1
   }
   if (b[orderBy] > a[orderBy]) {
-    return 1;
+    return 1
   }
-  return 0;
+  return 0
 }
 
-type Order = "asc" | "desc";
+type Order = 'asc' | 'desc'
 
 function getComparator<Key extends keyof any>(
   order: Order,
@@ -46,9 +43,9 @@ function getComparator<Key extends keyof any>(
   a: { [key in Key]: number | string },
   b: { [key in Key]: number | string }
 ) => number {
-  return order === "desc"
+  return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
+    : (a, b) => -descendingComparator(a, b, orderBy)
 }
 
 // This method is created for cross-browser compatibility, if you don't
@@ -57,75 +54,75 @@ function stableSort<T>(
   array: readonly T[],
   comparator: (a: T, b: T) => number
 ) {
-  const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
+  const stabilizedThis = array.map((el, index) => [el, index] as [T, number])
   stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
+    const order = comparator(a[0], b[0])
     if (order !== 0) {
-      return order;
+      return order
     }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
+    return a[1] - b[1]
+  })
+  return stabilizedThis.map((el) => el[0])
 }
 
 interface HeadCell {
-  disablePadding: boolean;
-  id: keyof Data;
-  label: string;
-  numeric: boolean;
+  disablePadding: boolean
+  id: keyof Data
+  label: string
+  numeric: boolean
 }
 
 const headCells: readonly HeadCell[] = [
   {
-    id: "rank",
+    id: 'rank',
     numeric: true,
     disablePadding: true,
-    label: i18n.t("12"),
+    label: i18n.t('12'),
   },
   {
-    id: "username",
+    id: 'username',
     numeric: false,
     disablePadding: false,
-    label: i18n.t("1"),
+    label: i18n.t('1'),
   },
   {
-    id: "win",
+    id: 'win',
     numeric: true,
     disablePadding: false,
-    label: i18n.t("14"),
+    label: i18n.t('14'),
   },
   {
-    id: "lose",
+    id: 'lose',
     numeric: true,
     disablePadding: false,
-    label: i18n.t("15"),
+    label: i18n.t('15'),
   },
   {
-    id: "score",
+    id: 'score',
     numeric: true,
     disablePadding: false,
-    label: i18n.t("16"),
+    label: i18n.t('16'),
   },
-];
+]
 
 interface EnhancedTableProps {
-  numSelected: number;
+  numSelected: number
   onRequestSort: (
     event: React.MouseEvent<unknown>,
     property: keyof Data
-  ) => void;
-  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  order: Order;
-  orderBy: string;
-  rowCount: number;
+  ) => void
+  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void
+  order: Order
+  orderBy: string
+  rowCount: number
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-  const { order, orderBy, onRequestSort } = props;
+  const { order, orderBy, onRequestSort } = props
   const createSortHandler =
     (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property);
-    };
+      onRequestSort(event, property)
+    }
 
   return (
     <TableHead>
@@ -133,22 +130,22 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align="left"
+            align='left'
             sortDirection={orderBy === headCell.id ? order : false}
             sx={{
-              borderBottom: "transparent",
-              maxWidth: `${headCell.id === "rank" ? "60px" : "inherit"}`,
+              borderBottom: 'transparent',
+              maxWidth: `${headCell.id === 'rank' ? '60px' : 'inherit'}`,
             }}
           >
             <TableSortLabel
-              active={orderBy === headCell.id && headCell.id !== "rank"}
-              direction={orderBy === headCell.id ? order : "asc"}
+              active={orderBy === headCell.id && headCell.id !== 'rank'}
+              direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
               // hideSortIcon={headCell.id === 'rank'}
               sx={{
-                textAlign: "left",
-                justifyContent: "left",
-                display: "flex",
+                textAlign: 'left',
+                justifyContent: 'left',
+                display: 'flex',
               }}
             >
               <div>{headCell.label}</div>
@@ -157,26 +154,26 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         ))}
       </TableRow>
     </TableHead>
-  );
+  )
 }
 
 type Props = {
-  small: boolean;
-};
+  small: boolean
+}
 
 export default function Scoreboard(props: Props) {
-  const { t } = useTranslation();
-  const { small } = props;
-  const [order, setOrder] = useState<Order>("asc");
-  const [orderBy, setOrderBy] = useState<keyof Data>("score");
-  const [selected, setSelected] = useState<readonly string[]>([]);
-  const [page, setPage] = useState(0);
-  const [dense] = useState(true);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [error, setError] = useState<AuthenticationErrorMessage>();
-  const [showError, setShowError] = useState(false);
-  const { theme: appTheme } = useContext(ThemeContext);
-  const { socket } = useContext(SocketContext);
+  const { t } = useTranslation()
+  const { small } = props
+  const [order, setOrder] = useState<Order>('asc')
+  const [orderBy, setOrderBy] = useState<keyof Data>('score')
+  const [selected, setSelected] = useState<readonly string[]>([])
+  const [page, setPage] = useState(0)
+  const [dense] = useState(true)
+  const [rowsPerPage, setRowsPerPage] = useState(5)
+  const [error, setError] = useState<AuthenticationErrorMessage>()
+  const [showError, setShowError] = useState(false)
+  const { theme: appTheme } = useContext(ThemeContext)
+  const { socket } = useContext(SocketContext)
 
   function createData(
     username: string,
@@ -191,72 +188,72 @@ export default function Scoreboard(props: Props) {
       win,
       lose,
       score,
-    };
+    }
   }
-  const { user } = useContext(UserContext);
-  const [rows, setRows] = useState<Data[]>([]);
+  const { user } = useContext(UserContext)
+  const [rows, setRows] = useState<Data[]>([])
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
     property: keyof Data
   ) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
+    const isAsc = orderBy === property && order === 'asc'
+    setOrder(isAsc ? 'desc' : 'asc')
+    setOrderBy(property)
+  }
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.username);
-      setSelected(newSelecteds);
-      return;
+      const newSelecteds = rows.map((n) => n.username)
+      setSelected(newSelecteds)
+      return
     }
-    setSelected([]);
-  };
+    setSelected([])
+  }
 
   const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected: readonly string[] = [];
+    const selectedIndex = selected.indexOf(name)
+    let newSelected: readonly string[] = []
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, name)
     } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
+      newSelected = newSelected.concat(selected.slice(1))
     } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
+      newSelected = newSelected.concat(selected.slice(0, -1))
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
         selected.slice(selectedIndex + 1)
-      );
+      )
     }
 
-    setSelected(newSelected);
-  };
+    setSelected(newSelected)
+  }
 
   const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
+    setPage(newPage)
+  }
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+    setRowsPerPage(parseInt(event.target.value, 10))
+    setPage(0)
+  }
 
-  const isSelected = (name: string) => selected.indexOf(name) !== -1;
+  const isSelected = (name: string) => selected.indexOf(name) !== -1
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
 
-  const getScoreboard = (unmounted: boolean) => {
+  const getScoreboard = useCallback((unmounted: boolean) => {
     client
-      .get("/scoreboard")
+      .get('/scoreboard')
       .then((res) => {
         if (!unmounted) {
-          const scores: Data[] = res.data;
+          const scores: Data[] = res.data
           const formattedScore = scores.map((info) => {
             return createData(
               info.username,
@@ -264,41 +261,41 @@ export default function Scoreboard(props: Props) {
               info.win,
               info.lose,
               info.score
-            );
-          });
-          setRows(formattedScore);
+            )
+          })
+          setRows(formattedScore)
         }
       })
       .catch((err) => {
-        setError(err.response.data);
-        setShowError(true);
-      });
-  };
+        setError(err.response.data)
+        setShowError(true)
+      })
+  }, [])
 
   useEffect(() => {
-    if (!socket) return;
-    socket.on("endGame", () => {
+    if (!socket) return
+    socket.on('endGame', () => {
       setTimeout(() => {
-        getScoreboard(false);
-      }, 1000);
-    });
-  }, [socket]);
+        getScoreboard(false)
+      }, 1000)
+    })
+  }, [socket, getScoreboard])
 
   useEffect(() => {
-    let unmounted = false;
+    let unmounted = false
 
-    getScoreboard(unmounted);
+    getScoreboard(unmounted)
     return () => {
-      unmounted = true;
-    };
-  }, [client]);
+      unmounted = true
+    }
+  }, [getScoreboard])
 
   return (
     <div
       className={`scoreboard-container${
-        appTheme === Theme.DARK ? "-dark" : ""
+        appTheme === Theme.DARK ? '-dark' : ''
       } scoreboard-container${
-        small ? "-small" : ""
+        small ? '-small' : ''
       } scoreboard-home disable-scrollbars`}
     >
       {user && error && (
@@ -311,21 +308,21 @@ export default function Scoreboard(props: Props) {
         />
       )}
       <h2
-        className="section-title"
-        style={{ paddingTop: small ? "24px" : "inherit" }}
+        className='section-title'
+        style={{ paddingTop: small ? '24px' : 'inherit' }}
       >
-        {t("11")}
+        {t('11')}
       </h2>
-      {rows.length < 1 && <div className="no-score">{t("66")}</div>}
+      {rows.length < 1 && <div className='no-score'>{t('66')}</div>}
       {rows.length > 0 && (
-        <Paper elevation={0} sx={{ backgroundColor: "transparent" }}>
+        <Paper elevation={0} sx={{ backgroundColor: 'transparent' }}>
           <TableContainer
-            sx={{ backgroundColor: "transparent", height: "200px" }}
+            sx={{ backgroundColor: 'transparent', height: '200px' }}
           >
             <Table
-              sx={{ backgroundColor: "transparent" }}
-              aria-labelledby="tableTitle"
-              size={dense ? "small" : "medium"}
+              sx={{ backgroundColor: 'transparent' }}
+              aria-labelledby='tableTitle'
+              size={dense ? 'small' : 'medium'}
             >
               <EnhancedTableHead
                 numSelected={selected.length}
@@ -336,68 +333,66 @@ export default function Scoreboard(props: Props) {
                 rowCount={rows.length}
               />
               <TableBody>
-                {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                  rows.slice().sort(getComparator(order, orderBy)) */}
                 {rows.length > 0 &&
                   stableSort(rows, getComparator(order, orderBy))
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row, index) => {
-                      const isItemSelected = isSelected(row.username);
-                      const labelId = `enhanced-table-checkbox-${index}`;
+                      const isItemSelected = isSelected(row.username)
+                      const labelId = `enhanced-table-checkbox-${index}`
 
                       return (
                         <TableRow
                           hover
                           onClick={(event) => handleClick(event, row.username)}
-                          role="checkbox"
+                          role='checkbox'
                           aria-checked={isItemSelected}
                           tabIndex={-1}
                           key={row.username}
                           selected={isItemSelected}
                         >
                           <TableCell
-                            component="th"
+                            component='th'
                             id={labelId}
-                            scope="row"
-                            align="left"
+                            scope='row'
+                            align='left'
                             sx={{
-                              borderBottom: "transparent",
-                              maxWidth: "30px",
+                              borderBottom: 'transparent',
+                              maxWidth: '30px',
                             }}
                           >
                             <div>{index + 1}</div>
                           </TableCell>
                           <TableCell
-                            align="left"
+                            align='left'
                             sx={{
-                              maxWidth: "60px",
-                              borderBottom: "transparent",
+                              maxWidth: '60px',
+                              borderBottom: 'transparent',
                             }}
                           >
-                            <div className="single-line-text">
+                            <div className='single-line-text'>
                               <div>{row.username}</div>
                             </div>
                           </TableCell>
                           <TableCell
-                            align="left"
-                            sx={{ borderBottom: "transparent" }}
+                            align='left'
+                            sx={{ borderBottom: 'transparent' }}
                           >
                             <div>{row.win}</div>
                           </TableCell>
                           <TableCell
-                            align="left"
-                            sx={{ borderBottom: "transparent" }}
+                            align='left'
+                            sx={{ borderBottom: 'transparent' }}
                           >
                             <div>{row.lose}</div>
                           </TableCell>
                           <TableCell
-                            align="left"
-                            sx={{ borderBottom: "transparent" }}
+                            align='left'
+                            sx={{ borderBottom: 'transparent' }}
                           >
                             <div>{row.score}</div>
                           </TableCell>
                         </TableRow>
-                      );
+                      )
                     })}
                 {emptyRows > 0 && (
                   <TableRow
@@ -413,7 +408,7 @@ export default function Scoreboard(props: Props) {
           </TableContainer>
           <TablePagination
             rowsPerPageOptions={[5]}
-            component="div"
+            component='div'
             count={rows.length}
             rowsPerPage={rowsPerPage}
             page={page}
@@ -423,5 +418,5 @@ export default function Scoreboard(props: Props) {
         </Paper>
       )}
     </div>
-  );
+  )
 }
