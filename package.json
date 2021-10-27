@@ -73,5 +73,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "yarn prettier:fix",
+      "yarn lint"
+    ]
   }
 }
