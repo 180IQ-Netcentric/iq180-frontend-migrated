@@ -51,7 +51,7 @@ const Lobby = () => {
   useEffect(() => {
     if (socket) socket.close()
     const newSocket = socketIOClient(
-      `${process.env.REACT_APP_APP_API_URL}` ?? 'http://localhost:3001',
+      `${process.env.REACT_APP_APP_API_URL}` ?? 'http://localhost:4001',
       { forceNew: true }
     )
     setSocket(newSocket)
@@ -63,7 +63,7 @@ const Lobby = () => {
         history.push('/')
         history.push('/lobby')
       }
-    }, 500)
+    }, 3000)
   }, [])
 
   useEffect(() => {
@@ -72,7 +72,7 @@ const Lobby = () => {
       setGameInfo(undefined)
       client.get('/userinfo').then((res) => {
         const newUserInfo = res.data
-        joinRoom({ ...userToUserInfo(newUserInfo, socket.id) })
+        if (socket.id) joinRoom({ ...userToUserInfo(newUserInfo, socket.id) })
       })
     }
   }, [socket])
