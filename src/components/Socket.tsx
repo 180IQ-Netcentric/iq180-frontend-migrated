@@ -20,7 +20,7 @@ const Socket = ({ children }: any) => {
   }
 
   const { socket } = useContext(SocketContext)
-  const { user } = useContext(UserContext)
+  const { user, isAdmin } = useContext(UserContext)
   const history = useHistory()
 
   useEffect(() => {
@@ -51,7 +51,12 @@ const Socket = ({ children }: any) => {
     })
 
     socket.on('startRound', () => {
-      if (history.location.pathname !== '/game') history.push('/game')
+      if (
+        !isAdmin &&
+        history.location.pathname !== '/admin' &&
+        history.location.pathname !== '/game'
+      )
+        history.push('/game')
     })
 
     socket.on('endGame', (gameInfo: GameInfo) => {
@@ -61,7 +66,15 @@ const Socket = ({ children }: any) => {
     socket.on('updateGameInfo', (gameInfo: GameInfo) => {
       setGameInfo(gameInfo)
     })
-  }, [location, socket])
+
+    if (!isAdmin) {
+      socket.on('onResetByAdmin', (setting: Settings) => {
+        if (!isAdmin && history.location.pathname === '/game')
+          history.push('/lobby')
+        setSettings(setting)
+      })
+    }
+  }, [location, socket, isAdmin])
 
   return <>{children}</>
 }

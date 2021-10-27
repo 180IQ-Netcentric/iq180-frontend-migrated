@@ -14,12 +14,18 @@ const Wrapper = ({ children }: any) => {
     toggleLanguage,
   } = useContext(GameSettingsContext)
   const { setAppTheme } = useContext(ThemeContext)
-  const { setUser } = useContext(UserContext)
+  const { setUser, setIsAdmin } = useContext(UserContext)
 
   useEffect(() => {
     client.get('/userinfo').then((res) => {
       const user: UserInfo = res.data
       setUser(user)
+    })
+
+    client.get('/adminState').then((res) => {
+      // @ts-ignore
+      const isAdmin = !res.data.isUser
+      setIsAdmin(isAdmin)
     })
   }, [setUser])
 

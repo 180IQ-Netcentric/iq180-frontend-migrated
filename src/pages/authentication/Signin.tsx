@@ -23,7 +23,7 @@ const SignIn = () => {
     handleSubmit,
     formState: { errors },
   } = useForm()
-  const { setUser } = useContext(UserContext)
+  const { setUser, setIsAdmin } = useContext(UserContext)
   const { isUser, setToken } = useContext(AuthContext)
   const history = useHistory()
   const [showAuthenticationError, setShowAuthenticationError] = useState(false)
@@ -57,7 +57,12 @@ const SignIn = () => {
         setToken(user.jwt)
         setCookie('token', user.jwt, 7)
         setUser(user)
-        history.replace('/')
+        setIsAdmin(!data.isUser)
+        if (data.isUser === false) {
+          history.push('/admin')
+        } else {
+          history.replace('/')
+        }
       })
       .catch((err) => {
         setError(err.response.data)

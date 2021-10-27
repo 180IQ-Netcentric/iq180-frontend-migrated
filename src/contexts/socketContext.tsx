@@ -84,6 +84,7 @@ const SocketContextProvider = ({ ...props }) => {
 
   const joinRoom = (userInfo: UserInfo) => {
     if (socket) {
+      console.log('joinRoom', userInfo)
       socket.emit('joinRoom', userInfo)
     }
   }
