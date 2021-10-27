@@ -49,7 +49,7 @@ const Socket = ({ children }: any) => {
       setSettings(settings)
     })
 
-    socket.on('startRound', (gameInfo: GameInfo) => {
+    socket.on('startRound', () => {
       if (history.location.pathname !== '/game') history.push('/game')
     })
 

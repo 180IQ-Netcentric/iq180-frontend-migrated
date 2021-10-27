@@ -89,32 +89,26 @@ const SocketContextProvider = ({ ...props }) => {
   }
 
   const updateSettings = (settings: Settings) => {
-    console.log('updateSettings', settings)
     if (socket) socket.emit('updateSetting', settings)
   }
 
   const startGame = () => {
-    console.log('startGame')
     if (socket) socket.emit('playerStartGame')
   }
 
   const nextTurn = (nextTurnInfo: NextTurn) => {
-    console.log('nextTurn', nextTurnInfo)
     if (socket) socket.emit('nextTurn', nextTurnInfo)
   }
 
   const endRound = (endRoundInfo: EndRound) => {
-    console.log('endRound', endRoundInfo)
     if (socket) socket.emit('endRound', endRoundInfo)
   }
 
   const nextRound = () => {
-    console.log('nextRound')
     if (socket) socket.emit('nextRound')
   }
 
   const disconnectSocket = (username: string) => {
-    console.log('disconnectSocket', username)
     if (socket) socket.emit('disconnect', username)
   }
 

@@ -1,8 +1,8 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState } from 'react'
 
 export enum Theme {
-  LIGHT = "light",
-  DARK = "dark",
+  LIGHT = 'light',
+  DARK = 'dark',
 }
 
 export enum Background {
@@ -14,33 +14,33 @@ export enum Background {
 }
 
 export interface ThemeConstruct {
-  theme: string;
-  setAppTheme: (value: string) => void;
-  background: number;
-  setBackground: (value: number) => void;
+  theme: string
+  setAppTheme: (value: string) => void
+  background: number
+  setBackground: (value: number) => void
 }
 
-export const ThemeContext = createContext({} as ThemeConstruct);
+export const ThemeContext = createContext({} as ThemeConstruct)
 
 const ThemeContextProvider = ({ ...props }) => {
   const recentTheme =
-    window.localStorage.getItem("isDarkTheme") === "false"
+    window.localStorage.getItem('isDarkTheme') === 'false'
       ? Theme.LIGHT
-      : Theme.DARK;
-  const [theme, setTheme] = useState<string>(recentTheme);
+      : Theme.DARK
+  const [theme, setTheme] = useState<string>(recentTheme)
   const [background, setBackground] = useState<Background>(
     Background.BACKGROUND0
-  );
+  )
   const setAppTheme = (theme: string) => {
     window.localStorage.setItem(
-      "isDarkTheme",
+      'isDarkTheme',
       (theme === Theme.DARK).toString()
-    );
-    setTheme(theme);
-  };
+    )
+    setTheme(theme)
+  }
 
-  const value = { theme, setAppTheme, background, setBackground };
-  return <ThemeContext.Provider value={value} {...props} />;
-};
+  const value = { theme, setAppTheme, background, setBackground }
+  return <ThemeContext.Provider value={value} {...props} />
+}
 
-export default ThemeContextProvider;
+export default ThemeContextProvider

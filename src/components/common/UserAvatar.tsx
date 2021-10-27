@@ -1,15 +1,15 @@
-import React from "react";
+import React from 'react'
 
 type Props = {
-  text: string;
-};
+  text: string
+}
 
 const UserAvatar = ({ text }: Props) => {
   return (
-    <div className="user-avatar">
+    <div className='user-avatar'>
       <p>{text?.charAt(0).toUpperCase()}</p>
     </div>
-  );
-};
+  )
+}
 
-export default UserAvatar;
+export default UserAvatar

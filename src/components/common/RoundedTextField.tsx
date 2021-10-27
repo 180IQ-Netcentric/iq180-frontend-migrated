@@ -1,10 +1,10 @@
-import { TextField } from "@mui/material";
-import { styled } from "@mui/system";
+import { TextField } from '@mui/material'
+import { styled } from '@mui/system'
 
 const RoundedTextField = styled(TextField)(() => ({
-  "& fieldset": {
-    borderRadius: "8px",
+  '& fieldset': {
+    borderRadius: '8px',
   },
-}));
+}))
 
-export default RoundedTextField;
+export default RoundedTextField
