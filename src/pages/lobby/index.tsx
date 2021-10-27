@@ -58,12 +58,8 @@ const Lobby = () => {
   }, [])
 
   useEffect(() => {
-    setTimeout(() => {
-      if (playerInfos && playerInfos?.length < 1) {
-        history.push('/')
-        history.push('/lobby')
-      }
-    }, 3000)
+    history.push('/')
+    history.push('/lobby')
   }, [])
 
   useEffect(() => {
