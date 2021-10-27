@@ -26,6 +26,7 @@ const Socket = ({ children }: any) => {
   useEffect(() => {
     if (gameInfo && !inSocketPages()) {
       socket?.emit('disconnectUser', user)
+      socket?.close()
       setGameInfo(undefined)
       setPlayerInfos([])
     }

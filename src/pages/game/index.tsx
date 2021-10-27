@@ -45,6 +45,7 @@ const Game = () => {
     endRound,
     winnerUsername,
     setWinnerUsername,
+    setPlayerInfos,
   } = useContext(SocketContext)
   const { user } = useContext(UserContext)
   const { theme: appTheme } = useContext(ThemeContext)
@@ -170,7 +171,9 @@ const Game = () => {
 
   const playAgain = () => {
     setGameInfo(undefined)
+    setPlayerInfos([])
     history.push('/')
+    setPlayerInfos([])
     history.push('/lobby')
   }
 

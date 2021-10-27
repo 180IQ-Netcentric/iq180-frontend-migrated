@@ -25,7 +25,7 @@ export default function MenuAppBar() {
   const { showSettings } = useContext(GameSettingsContext)
   const { user, clearUser } = useContext(UserContext)
   const { isUser, setToken } = useContext(AuthContext)
-  const { socket } = useContext(SocketContext)
+  const { socket, setPlayerInfos } = useContext(SocketContext)
   const history = useHistory()
   const anchor = useRef(null)
   const [elevation, setElevation] = useState(0)
@@ -43,7 +43,9 @@ export default function MenuAppBar() {
 
   const handleLogoClick = () => {
     history.push('/')
+    setPlayerInfos([])
     if (user) socket?.emit('disconnectUser', user)
+    socket?.close()
   }
 
   useEffect(() => {
