@@ -1,21 +1,21 @@
-import React, { useContext, useEffect } from "react";
-import { Button, Switch } from "@mui/material";
-import GameToggleButton from "../../components/buttons/GameToggleButton";
-import GameContainer from "../../components/containers/GameContainer";
-import PlayerInfoCard from "../../components/cards/PlayerInfoCard";
-import { UserContext } from "../../contexts/userContext";
-import { useHistory } from "react-router";
-import withUserGuard from "../../guards/user.guard";
-import { SocketContext } from "../../contexts/socketContext";
-import { userToUserInfo } from "../../utils/userToUserInfo";
-import { useTranslation } from "react-i18next";
-import { client } from "../../config/axiosConfig";
-import socketIOClient from "socket.io-client";
+import React, { useContext, useEffect } from 'react'
+import { Button, Switch } from '@mui/material'
+import GameToggleButton from '../../components/buttons/GameToggleButton'
+import GameContainer from '../../components/containers/GameContainer'
+import PlayerInfoCard from '../../components/cards/PlayerInfoCard'
+import { UserContext } from '../../contexts/userContext'
+import { useHistory } from 'react-router'
+import withUserGuard from '../../guards/user.guard'
+import { SocketContext } from '../../contexts/socketContext'
+import { userToUserInfo } from '../../utils/userToUserInfo'
+import { useTranslation } from 'react-i18next'
+import { client } from '../../config/axiosConfig'
+import socketIOClient from 'socket.io-client'
 
 const Lobby = () => {
-  const { t } = useTranslation();
-  const { user } = useContext(UserContext);
-  const { joinRoom } = useContext(SocketContext);
+  const { t } = useTranslation()
+  const { user } = useContext(UserContext)
+  const { joinRoom } = useContext(SocketContext)
   const {
     socket,
     setSocket,
@@ -24,72 +24,72 @@ const Lobby = () => {
     updateSettings,
     playerInfos,
     setGameInfo,
-  } = useContext(SocketContext);
-  const history = useHistory();
+  } = useContext(SocketContext)
+  const history = useHistory()
 
-  const DIGITS_COUNT_OPTION = [3, 4, 5, 6];
-  const ROUNDS_COUNT_OPTION = [1, 3, 5, 7];
-  const TIME_LMIT_OPTION = [30, 60, 90, 120];
+  const DIGITS_COUNT_OPTION = [3, 4, 5, 6]
+  const ROUNDS_COUNT_OPTION = [1, 3, 5, 7]
+  const TIME_LMIT_OPTION = [30, 60, 90, 120]
 
   const onSettingsChange = (change: any) => {
     if (settings) {
-      const newSettings = { ...settings, ...change };
-      setSettings(newSettings);
-      updateSettings(newSettings);
+      const newSettings = { ...settings, ...change }
+      setSettings(newSettings)
+      updateSettings(newSettings)
     }
-  };
+  }
 
   const leaveLobby = () => {
-    history.push("/");
-    socket?.emit("disconnectUser", user);
-  };
+    history.push('/')
+    socket?.emit('disconnectUser', user)
+  }
 
   const beginGame = () => {
-    history.push("/game");
-  };
+    history.push('/game')
+  }
 
   useEffect(() => {
-    if (socket) socket.close();
+    if (socket) socket.close()
     const newSocket = socketIOClient(
-      `${process.env.REACT_APP_APP_API_URL}` ?? "http://localhost:3001",
+      `${process.env.REACT_APP_APP_API_URL}` ?? 'http://localhost:3001',
       { forceNew: true }
-    );
-    setSocket(newSocket);
-  }, []);
+    )
+    setSocket(newSocket)
+  }, [])
 
   useEffect(() => {
     setTimeout(() => {
       if (playerInfos && playerInfos?.length < 1) {
-        history.push("/");
-        history.push("/lobby");
+        history.push('/')
+        history.push('/lobby')
       }
-    }, 500);
-  }, []);
+    }, 500)
+  }, [])
 
   useEffect(() => {
-    if (!socket) return;
+    if (!socket) return
     if (socket && user) {
-      setGameInfo(undefined);
-      client.get("/userinfo").then((res) => {
-        const newUserInfo = res.data;
-        joinRoom({ ...userToUserInfo(newUserInfo, socket.id) });
-      });
+      setGameInfo(undefined)
+      client.get('/userinfo').then((res) => {
+        const newUserInfo = res.data
+        joinRoom({ ...userToUserInfo(newUserInfo, socket.id) })
+      })
     }
-  }, [socket]);
+  }, [socket])
 
   return (
     <GameContainer>
-      <div className="game-padding">
-        <div className="settings-header">
-          <h1>{t("30")}</h1>
-          <Button onClick={leaveLobby}>{t("56")}</Button>
+      <div className='game-padding'>
+        <div className='settings-header'>
+          <h1>{t('30')}</h1>
+          <Button onClick={leaveLobby}>{t('56')}</Button>
         </div>
         <hr />
-        <div className="match-container">
-          <div className="match-settings">
-            <h3>{t("31")}</h3>
+        <div className='match-container'>
+          <div className='match-settings'>
+            <h3>{t('31')}</h3>
             <div>
-              <div className="settings-toggle-item">
+              <div className='settings-toggle-item'>
                 {DIGITS_COUNT_OPTION.map((digit) => (
                   <GameToggleButton
                     key={digit}
@@ -102,8 +102,8 @@ const Lobby = () => {
                 ))}
               </div>
 
-              <h3>{t("32")}</h3>
-              <div className="settings-toggle-item">
+              <h3>{t('32')}</h3>
+              <div className='settings-toggle-item'>
                 {ROUNDS_COUNT_OPTION.map((round) => (
                   <GameToggleButton
                     key={round}
@@ -116,8 +116,8 @@ const Lobby = () => {
                 ))}
               </div>
 
-              <h3>{t("33")}</h3>
-              <div className="settings-toggle-item">
+              <h3>{t('33')}</h3>
+              <div className='settings-toggle-item'>
                 {TIME_LMIT_OPTION.map((limit) => (
                   <GameToggleButton
                     key={limit}
@@ -131,9 +131,9 @@ const Lobby = () => {
                   </GameToggleButton>
                 ))}
               </div>
-              <div className="empty-space" />
-              <div className="settings-item">
-                <span>{t("34")}</span>
+              <div className='empty-space' />
+              <div className='settings-item'>
+                <span>{t('34')}</span>
                 <Switch
                   checked={!settings?.isClassicMode ?? false}
                   onChange={() =>
@@ -141,11 +141,11 @@ const Lobby = () => {
                       isClassicMode: !settings?.isClassicMode,
                     })
                   }
-                  inputProps={{ "aria-label": "controlled" }}
+                  inputProps={{ 'aria-label': 'controlled' }}
                 />
               </div>
-              <div className="settings-item">
-                <span>{t("35")}</span>
+              <div className='settings-item'>
+                <span>{t('35')}</span>
                 <Switch
                   checked={settings?.isClassicMode ?? false}
                   onChange={() =>
@@ -153,20 +153,20 @@ const Lobby = () => {
                       isClassicMode: !settings?.isClassicMode,
                     })
                   }
-                  inputProps={{ "aria-label": "controlled" }}
+                  inputProps={{ 'aria-label': 'controlled' }}
                 />
               </div>
             </div>
           </div>
-          <div className="player-info-container">
-            <div className="player-info">
+          <div className='player-info-container'>
+            <div className='player-info'>
               {user && (
                 <PlayerInfoCard
                   player={playerInfos ? playerInfos[0] : undefined}
                 />
               )}
             </div>
-            <div className="player-info">
+            <div className='player-info'>
               {user && (
                 <PlayerInfoCard
                   player={playerInfos ? playerInfos[1] : undefined}
@@ -174,20 +174,20 @@ const Lobby = () => {
               )}
             </div>
             <Button
-              variant="contained"
-              size="large"
-              sx={{ borderRadius: "15px" }}
-              className="game-start-button game-start-button-match"
+              variant='contained'
+              size='large'
+              sx={{ borderRadius: '15px' }}
+              className='game-start-button game-start-button-match'
               disabled={playerInfos && playerInfos.length < 2}
               onClick={beginGame}
             >
-              {t("36")}
+              {t('36')}
             </Button>
           </div>
         </div>
       </div>
     </GameContainer>
-  );
-};
+  )
+}
 
-export default withUserGuard(Lobby);
+export default withUserGuard(Lobby)
