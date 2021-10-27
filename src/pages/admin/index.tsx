@@ -3,15 +3,14 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 import GameContainer from '../../components/containers/GameContainer'
 import { client } from '../../config/axiosConfig'
-import {
-  PlayerInfos,
-  Settings,
-  SocketContext,
-} from '../../contexts/socketContext'
+import { PlayerInfos, SocketContext } from '../../contexts/socketContext'
 import { UserContext } from '../../contexts/userContext'
 import socketIOClient from 'socket.io-client'
+import { useTranslation } from 'react-i18next'
+import withAdminGuard from '../../guards/admin.guard'
 
 function Admin() {
+  const { t } = useTranslation()
   const history = useHistory()
   const { socket, setSocket } = useContext(SocketContext)
   const { setIsAdmin } = useContext(UserContext)
@@ -49,7 +48,6 @@ function Admin() {
     if (socket) {
       showAllPlayers(socket)
       socket.on('updatePlayerList', (playerInfos: PlayerInfos) => {
-        console.log(playerInfos)
         setOnlineUsers(playerInfos)
       })
     }
@@ -59,14 +57,18 @@ function Admin() {
     <div>
       <GameContainer>
         <div className='home-content-container'>
-          <h2>Admin Page</h2>
+          <h2>{t('108')}</h2>
           <hr />
-          <div>Online {onlineUsers.length.toString()}</div>
-          <Button onClick={resetSocketGame}>Reset Game</Button>
+          <h4>{t('106')} </h4>
+          <h3>{onlineUsers.length.toString()}</h3>
+          <h4>{t('107')}</h4>
+          <Button onClick={resetSocketGame} variant='contained'>
+            {t('38')}
+          </Button>
         </div>
       </GameContainer>
     </div>
   )
 }
 
-export default Admin
+export default withAdminGuard(Admin)
