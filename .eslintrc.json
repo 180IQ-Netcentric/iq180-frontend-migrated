@@ -26,6 +26,7 @@
       "@typescript-eslint/ban-ts-comment": 0,
       "semi": "off",
       "@typescript-eslint/semi": ["error", "never"],
-      "no-console": "warn"
+      "no-console": "warn",
+      "react-hooks/exhaustive-deps": "off"
   }
 }

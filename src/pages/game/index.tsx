@@ -20,7 +20,6 @@ import {
   Question,
   SocketContext,
 } from '../../contexts/socketContext'
-import { playerInfoToPlayerGameInfo } from '../../utils/playerInfoToPlayerGameInfo'
 import { client } from '../../config/axiosConfig'
 import WaitingScreen from './components/WaitingScreen'
 import { Theme, ThemeContext } from '../../contexts/themeContext'
@@ -39,7 +38,6 @@ const Game = () => {
     socket,
     gameInfo,
     setGameInfo,
-    playerInfos,
     nextTurn,
     nextRound,
     startGame,
@@ -147,7 +145,6 @@ const Game = () => {
           })
           setView('WAITING')
         } else if (user && gameInfo && user.username !== gameInfo.firstPlayer) {
-          console.log('endround3')
           endRound({
             username: user?.username,
             timeUsed: settings?.timeLimit ?? 999,
@@ -157,7 +154,6 @@ const Game = () => {
       }, 1000)
     } else {
       if (user && gameInfo && user.username === gameInfo.firstPlayer) {
-        console.log('endround2')
         endRound({
           username: user.username,
           timeUsed: gameInfo.setting.timeLimit,
@@ -246,8 +242,7 @@ const Game = () => {
       if (thisPlayer.score > opponent.score) client.put('/win')
       else if (thisPlayer.score < opponent.score) client.put('/lose')
     })
-    // @ts-ignore
-  }, [])
+  }, []) // @ts-ignore
 
   useEffect(() => {
     if (gameInfo) {
@@ -294,7 +289,6 @@ const Game = () => {
               currentResult &&
               user?.username !== gameInfo?.firstPlayer
             ) {
-              console.log('endRound4')
               endRound({ username: user.username, timeUsed: timeDiff })
             }
             setTimeout(() => {
@@ -302,7 +296,6 @@ const Game = () => {
             }, 1000)
           } else {
             if (user && timeDiff > 0) {
-              console.log('endround1')
               endRound({ username: user.username, timeUsed: timeDiff })
             }
 
