@@ -159,6 +159,7 @@ const Lobby = () => {
             </div>
           </div>
           <div className='player-info-container'>
+            <div className='welcome-player'>welcome player</div>
             <div className='player-info'>
               {user && (
                 <PlayerInfoCard
