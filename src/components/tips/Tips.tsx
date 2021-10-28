@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
 import MobileStepper from '@mui/material/MobileStepper'
@@ -8,32 +8,18 @@ import Button from '@mui/material/Button'
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight'
 import { useTranslation } from 'react-i18next'
-import i18n from '../../locales/i18n'
+import { useLanguage } from '../../locales/i18n'
 
-const steps = [
-  {
-    label: i18n.t('98'),
-    description: i18n.t('99'),
-  },
-  {
-    label: i18n.t('98'),
-    description: i18n.t('100'),
-  },
-  {
-    label: i18n.t('101'),
-    description: i18n.t('102'),
-  },
-  {
-    label: i18n.t('103'),
-    description: i18n.t('104'),
-  },
-]
+type Tip = {
+  label: string
+  description: string
+}
 
 export default function Tips() {
   const { t } = useTranslation()
+  const { language } = useLanguage()
   const theme = useTheme()
   const [activeStep, setActiveStep] = React.useState(0)
-  const maxSteps = steps.length
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
@@ -42,6 +28,33 @@ export default function Tips() {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1)
   }
+
+  const getSteps = () => {
+    return [
+      {
+        label: t('98'),
+        description: t('99'),
+      },
+      {
+        label: t('98'),
+        description: t('100'),
+      },
+      {
+        label: t('101'),
+        description: t('102'),
+      },
+      {
+        label: t('103'),
+        description: t('104'),
+      },
+    ]
+  }
+
+  const [steps, setSteps] = useState<Tip[]>(getSteps())
+
+  useEffect(() => {
+    setSteps(getSteps())
+  }, [language])
 
   return (
     <Box sx={{ maxWidth: '100%', flexGrow: 1 }}>
@@ -72,7 +85,7 @@ export default function Tips() {
       <MobileStepper
         className='tips-selector'
         variant='text'
-        steps={maxSteps}
+        steps={steps.length}
         position='static'
         activeStep={activeStep}
         sx={{ borderRadius: '12px', height: 40 }}
@@ -80,7 +93,7 @@ export default function Tips() {
           <Button
             size='small'
             onClick={handleNext}
-            disabled={activeStep === maxSteps - 1}
+            disabled={activeStep === steps.length - 1}
           >
             {t('67')}
             {theme.direction === 'rtl' ? (

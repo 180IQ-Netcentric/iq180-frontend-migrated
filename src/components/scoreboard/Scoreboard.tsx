@@ -14,7 +14,7 @@ import { AuthenticationErrorMessage, scoreboardError } from '../../utils/errors'
 import ErrorAlert from '../alerts/ErrorAlert'
 import { UserContext } from '../../contexts/userContext'
 import { useTranslation } from 'react-i18next'
-import i18n from '../../locales/i18n'
+import { useLanguage } from '../../locales/i18n'
 import { SocketContext } from '../../contexts/socketContext'
 interface Data {
   rank: number
@@ -72,38 +72,38 @@ interface HeadCell {
   numeric: boolean
 }
 
-const headCells: readonly HeadCell[] = [
-  {
-    id: 'rank',
-    numeric: true,
-    disablePadding: true,
-    label: i18n.t('12'),
-  },
-  {
-    id: 'username',
-    numeric: false,
-    disablePadding: false,
-    label: i18n.t('1'),
-  },
-  {
-    id: 'win',
-    numeric: true,
-    disablePadding: false,
-    label: i18n.t('14'),
-  },
-  {
-    id: 'lose',
-    numeric: true,
-    disablePadding: false,
-    label: i18n.t('15'),
-  },
-  {
-    id: 'score',
-    numeric: true,
-    disablePadding: false,
-    label: i18n.t('16'),
-  },
-]
+// const headCells: readonly HeadCell[] = [
+//   {
+//     id: 'rank',
+//     numeric: true,
+//     disablePadding: true,
+//     label: i18n.t('12'),
+//   },
+//   {
+//     id: 'username',
+//     numeric: false,
+//     disablePadding: false,
+//     label: i18n.t('1'),
+//   },
+//   {
+//     id: 'win',
+//     numeric: true,
+//     disablePadding: false,
+//     label: i18n.t('14'),
+//   },
+//   {
+//     id: 'lose',
+//     numeric: true,
+//     disablePadding: false,
+//     label: i18n.t('15'),
+//   },
+//   {
+//     id: 'score',
+//     numeric: true,
+//     disablePadding: false,
+//     label: i18n.t('16'),
+//   },
+// ]
 
 interface EnhancedTableProps {
   numSelected: number
@@ -118,11 +118,54 @@ interface EnhancedTableProps {
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
+  const { t } = useTranslation()
+  const { language } = useLanguage()
   const { order, orderBy, onRequestSort } = props
   const createSortHandler =
     (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property)
     }
+
+  const getHeadCells = () => {
+    return [
+      {
+        id: 'rank' as keyof Data,
+        numeric: true,
+        disablePadding: true,
+        label: t('12'),
+      },
+      {
+        id: 'username' as keyof Data,
+        numeric: false,
+        disablePadding: false,
+        label: t('1'),
+      },
+      {
+        id: 'win' as keyof Data,
+        numeric: true,
+        disablePadding: false,
+        label: t('14'),
+      },
+      {
+        id: 'lose' as keyof Data,
+        numeric: true,
+        disablePadding: false,
+        label: t('15'),
+      },
+      {
+        id: 'score' as keyof Data,
+        numeric: true,
+        disablePadding: false,
+        label: t('16'),
+      },
+    ]
+  }
+
+  const [headCells, setHeadCells] = useState<HeadCell[]>(getHeadCells())
+
+  useEffect(() => {
+    setHeadCells(getHeadCells())
+  }, [language])
 
   return (
     <TableHead>
@@ -148,7 +191,13 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                 display: 'flex',
               }}
             >
-              <div>{headCell.label}</div>
+              <div
+                style={{
+                  minWidth: headCell.id === 'username' ? '48px' : 'inherit',
+                }}
+              >
+                {headCell.label}
+              </div>
             </TableSortLabel>
           </TableCell>
         ))}
