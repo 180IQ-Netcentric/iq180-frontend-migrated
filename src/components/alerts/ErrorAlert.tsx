@@ -14,12 +14,20 @@ type Props = {
   description: string
   primaryAction: () => void
   secondaryAction?: () => void
+  customOnClose?: () => void
 }
 
 const ErrorAlert = (props: Props) => {
   const { t } = useTranslation()
-  const { open, setOpen, title, description, primaryAction, secondaryAction } =
-    props
+  const {
+    open,
+    setOpen,
+    title,
+    description,
+    primaryAction,
+    secondaryAction,
+    customOnClose,
+  } = props
 
   const handleClose = () => {
     if (secondaryAction) secondaryAction()
@@ -30,7 +38,7 @@ const ErrorAlert = (props: Props) => {
   return (
     <Dialog
       open={open}
-      onClose={handleClose}
+      onClose={customOnClose ?? handleClose}
       aria-labelledby='alert-dialog-title'
       aria-describedby='alert-dialog-description'
     >
