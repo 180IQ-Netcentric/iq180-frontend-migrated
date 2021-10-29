@@ -33,6 +33,7 @@ import timeEndWrong from '../../assets/audio/timeEndWrong.mp3'
 type Views = 'READY' | 'GAME' | 'WAITING' | 'ROUND_END' | 'GAME_END'
 
 const Game = () => {
+  // Context and utilities
   const { t } = useTranslation()
   const {
     socket,
@@ -49,10 +50,10 @@ const Game = () => {
   } = useContext(SocketContext)
   const { user } = useContext(UserContext)
   const { theme: appTheme } = useContext(ThemeContext)
-
   const history = useHistory()
   const defaultPlayer = { username: '', score: 0, timeUsed: 0 }
 
+  // Game States
   const OPERATION_SIGNS = ['+', '-', '×', '÷']
   const [numberOptions, setNumberOptions] = useState<number[]>([])
   const [questions, setQuestions] = useState<Question[]>()
@@ -69,16 +70,13 @@ const Game = () => {
   const [targetNumber, setTargetNumber] = useState(15)
   const [showCorrectStatus, setShowCorrectStatus] = useState(false)
   const [isRoundWinner, setRoundWinner] = useState(true)
-
-  // The scores of the players during the game will be tracked using these states locally
+  const [shoudShowSolution, setShouldShowSolution] = useState(false)
   const [player1] = useState<PlayerGameInfo>(defaultPlayer)
   const [player2] = useState<PlayerGameInfo>(defaultPlayer)
-
   const [roundTime, setRoundTime] = useState<number[]>([0, 0])
-
   const [view, setView] = useState<Views>('WAITING')
+  const [disableOperandButtons, setDisableOperandButtons] = useState(false)
   const isCorrectSolution = () => targetNumber === currentResult
-
   const [playWinSfx] = useSound(timeEnd)
   const [playLoseSfx] = useSound(timeEndWrong)
 
@@ -97,6 +95,7 @@ const Game = () => {
   }
 
   const clearInputs = () => {
+    setDisableOperandButtons(false)
     setSelectedOperator('')
     setSelectedOperands([null, null])
     setCurrentResult(null)
@@ -124,7 +123,10 @@ const Game = () => {
       setNumberOptions(questions[gameInfo.currentRound - 1].numberShuffle)
   }
 
-  const startNextRound = () => nextRound()
+  const startNextRound = () => {
+    setDisableOperandButtons(false)
+    nextRound()
+  }
 
   const endPlayerRound = () => {
     if (gameInfo?.setting.isClassicMode) {
@@ -230,8 +232,18 @@ const Game = () => {
         info.player1.username === user?.username ? info.player1 : info.player2
       const opponent =
         info.player1.username === user?.username ? info.player2 : info.player1
-      if (thisPlayer.score > opponent.score) client.put('/win')
-      else if (thisPlayer.score < opponent.score) client.put('/lose')
+      if (thisPlayer.score > opponent.score) {
+        client.put('/win')
+      } else if (thisPlayer.score < opponent.score) {
+        client.put('/lose')
+      }
+      const isWinner = thisPlayer.score > opponent.score
+      if (!gameInfo?.setting.isClassicMode && !isWinner) {
+        setShouldShowSolution(true)
+      }
+      if (gameInfo?.setting.isClassicMode && !isWinner) {
+        setShouldShowSolution(true)
+      }
     })
   }, []) // @ts-ignore
 
@@ -264,6 +276,7 @@ const Game = () => {
         // case correct answer
         if (result === targetNumber) {
           playWinSfx()
+          setDisableOperandButtons(true)
           const now = new Date()
           setRoundTime([roundTime[0], now.getTime()])
           const timeDiff = Math.floor((roundTime[1] - roundTime[0]) / 1000)
@@ -399,6 +412,7 @@ const Game = () => {
                         {numberOptions.map((num, index) => (
                           <RigidButton
                             disabled={
+                              disableOperandButtons ||
                               (!selectedOperator &&
                                 !(selectedOperands[0] === null)) ||
                               index === selectedNumberKey
@@ -482,6 +496,7 @@ const Game = () => {
                 )}
                 {view === 'GAME_END' && (
                   <div className='controls-container'>
+                    {shoudShowSolution && <Solution />}
                     <Button
                       variant='contained'
                       sx={{

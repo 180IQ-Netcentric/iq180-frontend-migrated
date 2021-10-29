@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { SocketContext } from '../../../contexts/socketContext'
 
 type Props = {
-  startNextRound: () => void
+  startNextRound?: () => void
 }
 
 export default function Solution(props: Props) {
@@ -30,21 +30,23 @@ export default function Solution(props: Props) {
     <div className='show-solution'>
       <div>
         <div style={{ fontSize: '24px' }}>{t('45')}</div>
-        <div style={{ fontSize: '32px', fontWeight: 'bold' }}>
+        <div style={{ fontSize: '24px', fontWeight: 'bold' }}>
           <span>{formattedSolution()}</span>
         </div>
-        <Button
-          variant='contained'
-          sx={{
-            backgroundColor: 'primary',
-            height: '48px',
-            width: '100%',
-          }}
-          className='button-row'
-          onClick={startNextRound}
-        >
-          {t('60')}
-        </Button>
+        {startNextRound && (
+          <Button
+            variant='contained'
+            sx={{
+              backgroundColor: 'primary',
+              height: '48px',
+              width: '100%',
+            }}
+            className='button-row'
+            onClick={startNextRound}
+          >
+            {t('60')}
+          </Button>
+        )}
       </div>
     </div>
   )
