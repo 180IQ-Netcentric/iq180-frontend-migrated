@@ -122,15 +122,9 @@ const Game = () => {
     if (!gameInfo) return
     if (questions)
       setNumberOptions(questions[gameInfo.currentRound - 1].numberShuffle)
-    resetRound()
   }
 
-  const startNextRound = () => {
-    nextRound()
-    setTimeout(() => {
-      resetRound()
-    }, 1000)
-  }
+  const startNextRound = () => nextRound()
 
   const endPlayerRound = () => {
     if (gameInfo?.setting.isClassicMode) {
@@ -164,11 +158,6 @@ const Game = () => {
     }
   }
 
-  const resetRound = () => {
-    // clearInputs()
-    // change question to the current round's
-  }
-
   const playAgain = () => {
     setGameInfo(undefined)
     setPlayerInfos([])
@@ -182,7 +171,6 @@ const Game = () => {
     // redirect user to home
     setShowleaveGameAlert(false)
     history.push('/')
-    // window.location.reload()
   }
 
   // socket implementation
@@ -193,11 +181,11 @@ const Game = () => {
     socket.on('startRound', (gameInfo: GameInfo) => {
       setQuestions(gameInfo.questions)
       setGameInfo(gameInfo)
+      resetButtons()
       setView('READY')
       setTimeout(() => {
         const now = new Date()
         setRoundTime([now.getTime(), roundTime[1]])
-        resetRound()
 
         // If your username is firstPlayer then u start playing game
         // If not then wait
@@ -212,7 +200,7 @@ const Game = () => {
 
     socket.on('startNextTurn', (info: GameInfo) => {
       setTimeout(() => {
-        resetRound()
+        resetButtons()
         if (user?.username !== info?.firstPlayer) setView('READY')
         if (user?.username !== info?.firstPlayer) {
           setTimeout(() => {
