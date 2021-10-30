@@ -29,6 +29,7 @@ import ReadyCountdown from './components/ReadyCountdown'
 import timeEnd from '../../assets/audio/timeEnd.mp3'
 // @ts-ignore
 import timeEndWrong from '../../assets/audio/timeEndWrong.mp3'
+import Chat from '../../components/chat'
 
 type Views = 'READY' | 'GAME' | 'WAITING' | 'ROUND_END' | 'GAME_END'
 
@@ -76,6 +77,7 @@ const Game = () => {
   const [roundTime, setRoundTime] = useState<number[]>([0, 0])
   const [view, setView] = useState<Views>('WAITING')
   const [disableOperandButtons, setDisableOperandButtons] = useState(false)
+  const [isShowScoreboard, setIsShowScoreboard] = useState(true)
   const isCorrectSolution = () => targetNumber === currentResult
   const [playWinSfx] = useSound(timeEnd)
   const [playLoseSfx] = useSound(timeEndWrong)
@@ -361,7 +363,14 @@ const Game = () => {
           <div className='game-page-container'>
             <div className='home-options-container'>
               <div className='scoreboard'>
-                <Scoreboard small={true} />
+                {isShowScoreboard ? (
+                  <Scoreboard
+                    small={true}
+                    toggleView={() => setIsShowScoreboard(false)}
+                  />
+                ) : (
+                  <Chat toggleView={() => setIsShowScoreboard(true)} />
+                )}
               </div>
             </div>
             <div
