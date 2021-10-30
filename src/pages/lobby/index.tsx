@@ -77,10 +77,6 @@ const Lobby = () => {
     }
     newSocket.on('updatePlayerList', () => {
       setPlayerCount(playerInfos?.length)
-      if (user && playerInfos && playerInfos.length < 1) {
-        history.push('/')
-        history.push('/lobby')
-      }
     })
   }, [])
 
