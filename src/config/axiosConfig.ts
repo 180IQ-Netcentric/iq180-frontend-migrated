@@ -5,7 +5,7 @@ type UrlType = string | undefined
 
 export const client = Axios.create({
   baseURL:
-    (process.env.REACT_APP_APP_API_URL as UrlType) || 'http://localhost:3001',
+    (process.env.REACT_APP_APP_API_URL as UrlType) || 'http://localhost:4001',
 })
 client.interceptors.request.use(
   (req) => {

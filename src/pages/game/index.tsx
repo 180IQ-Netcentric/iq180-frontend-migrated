@@ -70,7 +70,7 @@ const Game = () => {
   const [targetNumber, setTargetNumber] = useState(15)
   const [showCorrectStatus, setShowCorrectStatus] = useState(false)
   const [isRoundWinner, setRoundWinner] = useState(true)
-  const [shoudShowSolution, setShouldShowSolution] = useState(false)
+  const [shouldShowSolution, setShouldShowSolution] = useState(false)
   const [player1] = useState<PlayerGameInfo>(defaultPlayer)
   const [player2] = useState<PlayerGameInfo>(defaultPlayer)
   const [roundTime, setRoundTime] = useState<number[]>([0, 0])
@@ -118,8 +118,7 @@ const Game = () => {
 
   const resetButtons = () => {
     clearInputs()
-    if (!gameInfo) return
-    if (questions)
+    if (gameInfo && questions)
       setNumberOptions(questions[gameInfo.currentRound - 1].numberShuffle)
   }
 
@@ -217,6 +216,18 @@ const Game = () => {
     socket.on('announceWinner', ({ gameInfo, winnerUsername }) => {
       setGameInfo(gameInfo)
       setWinnerUsername(winnerUsername)
+      const thisPlayer =
+        gameInfo.player1.username === user?.username
+          ? gameInfo.player1
+          : gameInfo.player2
+
+      if (settings?.isClassicMode) {
+        const cannotAnswer = thisPlayer.timeUsed === null
+        setShouldShowSolution(user?.username !== winnerUsername && cannotAnswer)
+      } else {
+        setShouldShowSolution(user?.username !== winnerUsername)
+      }
+
       setTimeout(() => {
         setView('ROUND_END')
       }, 1000)
@@ -237,12 +248,15 @@ const Game = () => {
       } else if (thisPlayer.score < opponent.score) {
         client.put('/lose')
       }
-      const isWinner = thisPlayer.score > opponent.score
-      if (!gameInfo?.setting.isClassicMode && !isWinner) {
+      const isLoser = thisPlayer.score < opponent.score
+      if (!gameInfo?.setting.isClassicMode && isLoser) {
         setShouldShowSolution(true)
+      } else if (!gameInfo?.setting.isClassicMode && !isLoser) {
+        setShouldShowSolution(false)
       }
-      if (gameInfo?.setting.isClassicMode && !isWinner) {
-        setShouldShowSolution(true)
+      if (gameInfo?.setting.isClassicMode && isLoser) {
+        const cannotAnswer = thisPlayer.timeUsed === null
+        setShouldShowSolution(cannotAnswer)
       }
     })
   }, []) // @ts-ignore
@@ -476,7 +490,8 @@ const Game = () => {
                 )}
                 {view === 'ROUND_END' && (
                   <div className='round-end-options-container'>
-                    {isRoundWinner ? (
+                    {shouldShowSolution && <Solution />}
+                    {isRoundWinner && (
                       <Button
                         variant='contained'
                         sx={{
@@ -489,14 +504,15 @@ const Game = () => {
                       >
                         {t('60')}
                       </Button>
-                    ) : (
+                    )}
+                    {!isRoundWinner && !shouldShowSolution && (
                       <Solution startNextRound={startNextRound} />
                     )}
                   </div>
                 )}
                 {view === 'GAME_END' && (
                   <div className='controls-container'>
-                    {shoudShowSolution && <Solution />}
+                    {shouldShowSolution && <Solution />}
                     <Button
                       variant='contained'
                       sx={{
