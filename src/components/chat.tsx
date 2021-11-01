@@ -12,10 +12,11 @@ type Chat = {
 
 type Props = {
   toggleView: () => void
+  className: string
 }
 
 const Chat = (props: Props) => {
-  const { toggleView } = props
+  const { toggleView, className } = props
   const { socket } = useContext(SocketContext)
   const { user } = useContext(UserContext)
   const [chatMessages, setChatMessages] = useState<Chat[]>([
@@ -52,7 +53,7 @@ const Chat = (props: Props) => {
   }, [])
 
   return (
-    <div className='chat-component'>
+    <div className={`chat-component ${className}`}>
       <div className='top-chat-section'>
         <div className='chat-header'>
           <div className='chat-title'>Chat</div>
