@@ -343,6 +343,8 @@ export default function Scoreboard(props: Props) {
     }
   }, [getScoreboard])
 
+  const isInGame = document.URL.includes('game')
+
   return (
     <div
       className={`scoreboard-container${
@@ -367,9 +369,11 @@ export default function Scoreboard(props: Props) {
         >
           {t('11')}
         </div>
-        <IconButton onClick={toggleView} sx={{ margin: '24px 12px 0 0' }}>
-          <ChatIcon />
-        </IconButton>
+        {isInGame? (
+          <IconButton onClick={toggleView} sx={{ margin: '24px 12px 0 0' }}>
+            <ChatIcon />
+          </IconButton> ): ('')
+        }     
       </div>
       {rows.length < 1 && <div className='no-score'>{t('66')}</div>}
       {rows.length > 0 && (
