@@ -83,3 +83,7 @@ hr {
 .empty-space {
   height: 24px;
 }
+
+.hidden {
+  display: none !important;
+}
