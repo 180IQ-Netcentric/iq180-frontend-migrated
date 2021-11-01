@@ -1,0 +1,33 @@
+.chat-component {
+  height: 580px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 24px 0 12px 0;
+}
+
+.chat-container {
+  background-color: #ffe2b8;
+  height:430px;
+  overflow-y: scroll;
+  padding: 0px 12px;
+  border-radius: 16px;
+}
+
+.chat-form {
+  display: flex;
+  justify-content: space-between;
+}
+
+.chat-message { 
+  color: black;
+  margin: 8px 0;
+}
+

@@ -16,6 +16,9 @@ import { UserContext } from '../../contexts/userContext'
 import { useTranslation } from 'react-i18next'
 import { useLanguage } from '../../locales/i18n'
 import { SocketContext } from '../../contexts/socketContext'
+import { IconButton } from '@mui/material'
+import ChatIcon from '@mui/icons-material/Chat'
+
 interface Data {
   rank: number
   username: string
@@ -71,39 +74,6 @@ interface HeadCell {
   label: string
   numeric: boolean
 }
-
-// const headCells: readonly HeadCell[] = [
-//   {
-//     id: 'rank',
-//     numeric: true,
-//     disablePadding: true,
-//     label: i18n.t('12'),
-//   },
-//   {
-//     id: 'username',
-//     numeric: false,
-//     disablePadding: false,
-//     label: i18n.t('1'),
-//   },
-//   {
-//     id: 'win',
-//     numeric: true,
-//     disablePadding: false,
-//     label: i18n.t('14'),
-//   },
-//   {
-//     id: 'lose',
-//     numeric: true,
-//     disablePadding: false,
-//     label: i18n.t('15'),
-//   },
-//   {
-//     id: 'score',
-//     numeric: true,
-//     disablePadding: false,
-//     label: i18n.t('16'),
-//   },
-// ]
 
 interface EnhancedTableProps {
   numSelected: number
@@ -208,11 +178,12 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 type Props = {
   small: boolean
+  toggleView?: () => void
 }
 
 export default function Scoreboard(props: Props) {
   const { t } = useTranslation()
-  const { small } = props
+  const { small, toggleView } = props
   const [order, setOrder] = useState<Order>('asc')
   const [orderBy, setOrderBy] = useState<keyof Data>('score')
   const [selected, setSelected] = useState<readonly string[]>([])
@@ -339,6 +310,8 @@ export default function Scoreboard(props: Props) {
     }
   }, [getScoreboard])
 
+  const isInGame = document.URL.includes('game')
+
   return (
     <div
       className={`scoreboard-container${
@@ -356,12 +329,19 @@ export default function Scoreboard(props: Props) {
           primaryAction={() => setShowError(false)}
         />
       )}
-      <h2
-        className='section-title'
-        style={{ paddingTop: small ? '24px' : 'inherit' }}
-      >
-        {t('11')}
-      </h2>
+      <div className='chat-header'>
+        <div
+          className='section-title'
+          style={{ paddingTop: small ? '24px' : 'inherit' }}
+        >
+          {t('11')}
+        </div>
+        {isInGame? (
+          <IconButton onClick={toggleView} sx={{ margin: '24px 12px 0 0' }}>
+            <ChatIcon />
+          </IconButton> ): ('')
+        }     
+      </div>
       {rows.length < 1 && <div className='no-score'>{t('66')}</div>}
       {rows.length > 0 && (
         <Paper elevation={0} sx={{ backgroundColor: 'transparent' }}>
