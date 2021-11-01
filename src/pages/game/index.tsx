@@ -363,13 +363,13 @@ const Game = () => {
           <div className='game-page-container'>
             <div className='home-options-container'>
               <div className='scoreboard'>
-                {isShowScoreboard ? (
+                {!isShowScoreboard ? (
                   <Scoreboard
                     small={true}
-                    toggleView={() => setIsShowScoreboard(false)}
+                    toggleView={() => setIsShowScoreboard(true)}
                   />
                 ) : (
-                  <Chat toggleView={() => setIsShowScoreboard(true)} />
+                  <Chat toggleView={() => setIsShowScoreboard(false)} />
                 )}
               </div>
             </div>
