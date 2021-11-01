@@ -179,11 +179,12 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 type Props = {
   small: boolean
   toggleView?: () => void
+  className?: string
 }
 
 export default function Scoreboard(props: Props) {
   const { t } = useTranslation()
-  const { small, toggleView } = props
+  const { small, toggleView, className } = props
   const [order, setOrder] = useState<Order>('asc')
   const [orderBy, setOrderBy] = useState<keyof Data>('score')
   const [selected, setSelected] = useState<readonly string[]>([])
@@ -318,7 +319,7 @@ export default function Scoreboard(props: Props) {
         appTheme === Theme.DARK ? '-dark' : ''
       } scoreboard-container${
         small ? '-small' : ''
-      } scoreboard-home disable-scrollbars`}
+      } scoreboard-home disable-scrollbars ${className}`}
     >
       {user && error && (
         <ErrorAlert
@@ -336,11 +337,13 @@ export default function Scoreboard(props: Props) {
         >
           {t('11')}
         </div>
-        {isInGame? (
+        {isInGame ? (
           <IconButton onClick={toggleView} sx={{ margin: '24px 12px 0 0' }}>
             <ChatIcon />
-          </IconButton> ): ('')
-        }     
+          </IconButton>
+        ) : (
+          ''
+        )}
       </div>
       {rows.length < 1 && <div className='no-score'>{t('66')}</div>}
       {rows.length > 0 && (

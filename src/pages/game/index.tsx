@@ -363,14 +363,15 @@ const Game = () => {
           <div className='game-page-container'>
             <div className='home-options-container'>
               <div className='scoreboard'>
-                {!isShowScoreboard ? (
-                  <Scoreboard
-                    small={true}
-                    toggleView={() => setIsShowScoreboard(true)}
-                  />
-                ) : (
-                  <Chat toggleView={() => setIsShowScoreboard(false)} />
-                )}
+                <Scoreboard
+                  className={`${!isShowScoreboard || 'hidden'}`}
+                  small={true}
+                  toggleView={() => setIsShowScoreboard(true)}
+                />
+                <Chat
+                  toggleView={() => setIsShowScoreboard(false)}
+                  className={`${isShowScoreboard || 'hidden'}`}
+                />
               </div>
             </div>
             <div
