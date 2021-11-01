@@ -75,39 +75,6 @@ interface HeadCell {
   numeric: boolean
 }
 
-// const headCells: readonly HeadCell[] = [
-//   {
-//     id: 'rank',
-//     numeric: true,
-//     disablePadding: true,
-//     label: i18n.t('12'),
-//   },
-//   {
-//     id: 'username',
-//     numeric: false,
-//     disablePadding: false,
-//     label: i18n.t('1'),
-//   },
-//   {
-//     id: 'win',
-//     numeric: true,
-//     disablePadding: false,
-//     label: i18n.t('14'),
-//   },
-//   {
-//     id: 'lose',
-//     numeric: true,
-//     disablePadding: false,
-//     label: i18n.t('15'),
-//   },
-//   {
-//     id: 'score',
-//     numeric: true,
-//     disablePadding: false,
-//     label: i18n.t('16'),
-//   },
-// ]
-
 interface EnhancedTableProps {
   numSelected: number
   onRequestSort: (
