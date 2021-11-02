@@ -15,6 +15,8 @@ import { AuthContext } from '../../contexts/authContext'
 import ErrorAlert from '../../components/alerts/ErrorAlert'
 import { AuthenticationErrorMessage, signInError } from '../../utils/errors'
 import { useTranslation } from 'react-i18next'
+import jwt_decode from 'jwt-decode'
+import { Token } from '../../guards/admin.guard'
 
 const SignIn = () => {
   const { t } = useTranslation()
@@ -58,8 +60,10 @@ const SignIn = () => {
         setCookie('token', user.jwt, 7)
         setUser(user)
         setIsAdmin(!data.isUser)
-        if (data.isUser === false) {
-          history.push('/admin')
+        const decodedToken = user.jwt ? jwt_decode<Token>(user.jwt) : undefined
+        const role = decodedToken?.role
+        if (role === 'Admin') {
+          history.replace('/admin')
         } else {
           history.replace('/')
         }

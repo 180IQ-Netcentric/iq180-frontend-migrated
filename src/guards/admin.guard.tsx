@@ -3,7 +3,7 @@ import { Redirect } from 'react-router'
 import { getCookie } from '../utils/cookie'
 import jwt_decode from 'jwt-decode'
 
-interface Token {
+export interface Token {
   role: 'Admin' | 'User'
   exp: number
   iat: number
