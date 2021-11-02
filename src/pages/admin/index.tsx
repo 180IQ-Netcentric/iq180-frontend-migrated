@@ -50,6 +50,9 @@ function Admin() {
       socket.on('onShowAllPlayers', (playerInfos: PlayerInfos) => {
         setOnlineUsers(playerInfos)
       })
+      socket.on('updatePlayerList', (playerInfos: PlayerInfos) => {
+        setOnlineUsers(playerInfos)
+      })
     }
   }, [socket])
 
