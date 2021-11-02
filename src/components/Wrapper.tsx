@@ -32,8 +32,8 @@ const Wrapper = ({ children }: any) => {
   useEffect(() => {
     // save default values to localstorage if they are not available
     if (!window.localStorage.getItem('musicOn')) {
-      window.localStorage.setItem('musicOn', 'true')
-      toggleMusic(true)
+      window.localStorage.setItem('musicOn', 'false')
+      toggleMusic(false)
     }
     if (!window.localStorage.getItem('soundEffectOn')) {
       window.localStorage.setItem('soundEffectOn', 'false')
