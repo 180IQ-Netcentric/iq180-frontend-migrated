@@ -47,7 +47,7 @@ function Admin() {
   useEffect(() => {
     if (socket) {
       showAllPlayers(socket)
-      socket.on('updatePlayerList', (playerInfos: PlayerInfos) => {
+      socket.on('onShowAllPlayers', (playerInfos: PlayerInfos) => {
         setOnlineUsers(playerInfos)
       })
     }
