@@ -15,13 +15,19 @@ export default function Solution(props: Props) {
 
   const formattedSolution = () => {
     if (!gameInfo) return null
+    
     const currentQuestion = gameInfo.questions[gameInfo.currentRound - 1]
-    let sol = ''
-    for (let i = 0; i < currentQuestion.operator.length; i++) {
-      sol += currentQuestion.number[i].toString() + ' '
-      sol += OPERATION_SIGNS[currentQuestion.operator[i]] + ' '
+    console.log(currentQuestion)
+    let sol =' '
+    for( let i = 0; i < currentQuestion.operator.length; i++ ){
+      sol += '('
     }
-    sol += currentQuestion.number[currentQuestion.number.length - 1]
+    sol += currentQuestion.number[0].toString()+' '+OPERATION_SIGNS[currentQuestion.operator[0]]+' '
+    for (let i = 1; i < currentQuestion.operator.length; i++) {
+      sol += currentQuestion.number[i].toString() 
+      sol += ') '+OPERATION_SIGNS[currentQuestion.operator[i]] + ' '
+    }
+    sol += currentQuestion.number[currentQuestion.number.length - 1] + ')'
     sol += ' = ' + currentQuestion.result
     return sol
   }
