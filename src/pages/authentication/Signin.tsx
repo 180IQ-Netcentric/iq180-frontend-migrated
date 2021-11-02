@@ -63,7 +63,7 @@ const SignIn = () => {
         const decodedToken = user.jwt ? jwt_decode<Token>(user.jwt) : undefined
         const role = decodedToken?.role
         if (role === 'Admin') {
-          history.replace('/admin')
+          window.location.pathname = '/admin'
         } else {
           history.replace('/')
         }
