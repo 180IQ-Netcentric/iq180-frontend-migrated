@@ -223,11 +223,11 @@ const Game = () => {
           ? gameInfo.player1
           : gameInfo.player2
 
+      const cannotAnswer = thisPlayer.timeUsed === null
       if (settings?.isClassicMode) {
-        const cannotAnswer = thisPlayer.timeUsed === null
         setShouldShowSolution(user?.username !== winnerUsername && cannotAnswer)
       } else {
-        setShouldShowSolution(user?.username !== winnerUsername)
+        setShouldShowSolution(user?.username !== winnerUsername && cannotAnswer)
       }
 
       setTimeout(() => {
