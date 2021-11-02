@@ -109,5 +109,7 @@
     "107": "Reset the current game",
     "108": "Admin Page",
     "109": "Lobby is full",
-    "110": "Please wait for the current game to finish."
+    "110": "Please wait for the current game to finish.",
+    "111": "Chat",
+    "112": "submit"
 }

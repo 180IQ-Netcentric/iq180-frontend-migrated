@@ -4,6 +4,7 @@ import { SocketContext } from '../contexts/socketContext'
 import { UserContext } from '../contexts/userContext'
 import RoundedTextField from './common/RoundedTextField'
 import InsertChartIcon from '@mui/icons-material/InsertChart'
+import { useTranslation } from 'react-i18next'
 
 type Chat = {
   username: string
@@ -16,6 +17,7 @@ type Props = {
 }
 
 const Chat = (props: Props) => {
+  const { t } = useTranslation()
   const { toggleView, className } = props
   const { socket } = useContext(SocketContext)
   const { user } = useContext(UserContext)
@@ -56,7 +58,7 @@ const Chat = (props: Props) => {
     <div className={`chat-component ${className}`}>
       <div className='top-chat-section'>
         <div className='chat-header'>
-          <div className='chat-title'>Chat</div>
+          <div className='chat-title'>{t('111')}</div>
           <IconButton onClick={toggleView}>
             <InsertChartIcon />
           </IconButton>
@@ -78,11 +80,11 @@ const Chat = (props: Props) => {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setNewMessage(e.target.value)
             }
-            label={'chat'}
+            label={t('111')}
             sx={{ width: '100%', marginRight: '12px' }}
             value={newMessage}
           />
-          <Button type='submit'>Submit</Button>
+          <Button type='submit'>{t('112')}</Button>
         </form>
       </div>
     </div>
