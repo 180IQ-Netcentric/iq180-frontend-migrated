@@ -255,7 +255,7 @@ const Game = () => {
       } else if (!info?.setting.isClassicMode && !isLoser) {
         setShouldShowSolution(false)
       }
-      if (info?.setting.isClassicMode && (isLoser || isDraw)) {
+      if (info?.setting.isClassicMode) {
         const cannotAnswer =
           thisPlayer.timeUsed === null ||
           thisPlayer.timeUsed === settings?.timeLimit
