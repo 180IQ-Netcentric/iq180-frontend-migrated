@@ -35,6 +35,7 @@ export default function MenuAppBar() {
     setToken('')
     setCookie('token', null, 0)
     clearUser()
+    socket?.disconnect()
   }
 
   const handleSignIn = () => {

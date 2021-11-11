@@ -237,8 +237,6 @@ const Game = () => {
 
     socket.on('endGame', (info: GameInfo) => {
       setGameInfo(info)
-      setView('GAME_END')
-
       // update score win if you win
       // update score lose if you lose
       const thisPlayer =
@@ -251,15 +249,19 @@ const Game = () => {
         client.put('/lose')
       }
       const isLoser = thisPlayer.score < opponent.score
-      if (!gameInfo?.setting.isClassicMode && isLoser) {
+      const isDraw = thisPlayer.score === opponent.score
+      if (!info?.setting.isClassicMode && (isLoser || isDraw)) {
         setShouldShowSolution(true)
-      } else if (!gameInfo?.setting.isClassicMode && !isLoser) {
+      } else if (!info?.setting.isClassicMode && !isLoser) {
         setShouldShowSolution(false)
       }
-      if (gameInfo?.setting.isClassicMode && isLoser) {
-        const cannotAnswer = thisPlayer.timeUsed === null
+      if (info?.setting.isClassicMode && (isLoser || isDraw)) {
+        const cannotAnswer =
+          thisPlayer.timeUsed === null ||
+          thisPlayer.timeUsed === settings?.timeLimit
         setShouldShowSolution(cannotAnswer)
       }
+      setView('GAME_END')
     })
   }, []) // @ts-ignore
 
@@ -501,23 +503,21 @@ const Game = () => {
                 {view === 'ROUND_END' && (
                   <div className='round-end-options-container'>
                     {shouldShowSolution && <Solution />}
-                    {isRoundWinner && (
-                      <Button
-                        variant='contained'
-                        sx={{
-                          backgroundColor: 'primary',
-                          height: '48px',
-                          width: '100%',
-                        }}
-                        className='button-row'
-                        onClick={startNextRound}
-                      >
-                        {t('60')}
-                      </Button>
-                    )}
                     {!isRoundWinner && (
                       <Solution startNextRound={startNextRound} />
                     )}
+                    <Button
+                      variant='contained'
+                      sx={{
+                        backgroundColor: 'primary',
+                        height: '48px',
+                        width: '100%',
+                      }}
+                      className='button-row'
+                      onClick={startNextRound}
+                    >
+                      {t('60')}
+                    </Button>
                   </div>
                 )}
                 {view === 'GAME_END' && (

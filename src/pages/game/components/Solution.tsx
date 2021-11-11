@@ -42,20 +42,6 @@ export default function Solution(props: Props) {
         <div style={{ fontSize: '24px', fontWeight: 'bold' }}>
           <span>{formattedSolution()}</span>
         </div>
-        {startNextRound && (
-          <Button
-            variant='contained'
-            sx={{
-              backgroundColor: 'primary',
-              height: '48px',
-              width: '100%',
-            }}
-            className='button-row'
-            onClick={startNextRound}
-          >
-            {t('60')}
-          </Button>
-        )}
       </div>
     </div>
   )
