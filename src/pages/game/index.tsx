@@ -501,18 +501,20 @@ const Game = () => {
                 {view === 'ROUND_END' && (
                   <div className='round-end-options-container'>
                     {shouldShowSolution && <Solution />}
-                    <Button
-                      variant='contained'
-                      sx={{
-                        backgroundColor: 'primary',
-                        height: '48px',
-                        width: '100%',
-                      }}
-                      className='button-row'
-                      onClick={startNextRound}
-                    >
-                      {t('60')}
-                    </Button>
+                    {isRoundWinner && (
+                      <Button
+                        variant='contained'
+                        sx={{
+                          backgroundColor: 'primary',
+                          height: '48px',
+                          width: '100%',
+                        }}
+                        className='button-row'
+                        onClick={startNextRound}
+                      >
+                        {t('60')}
+                      </Button>
+                    )}
                     {!isRoundWinner && !shouldShowSolution && (
                       <Solution startNextRound={startNextRound} />
                     )}
