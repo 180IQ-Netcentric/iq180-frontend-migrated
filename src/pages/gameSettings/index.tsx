@@ -100,7 +100,7 @@ const GameSettings = ({ onClose }: any) => {
           <RoundedTextField
             required
             id='outlined-required'
-            label='Required'
+            label={t('113')}
             defaultValue={player?.username ?? ''}
             onChange={onUsernameChange}
             sx={{ width: '100%', maxWidth: '300px', margin: '0 15px 15px 0' }}
