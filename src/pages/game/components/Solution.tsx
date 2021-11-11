@@ -1,4 +1,3 @@
-import { Button } from '@mui/material'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SocketContext } from '../../../contexts/socketContext'
@@ -9,7 +8,6 @@ type Props = {
 
 export default function Solution(props: Props) {
   const { t } = useTranslation()
-  const { startNextRound } = props
   const OPERATION_SIGNS = ['+', '-', '×', '÷']
   const { gameInfo } = useContext(SocketContext)
 
