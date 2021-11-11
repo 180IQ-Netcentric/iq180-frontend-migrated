@@ -503,9 +503,7 @@ const Game = () => {
                 {view === 'ROUND_END' && (
                   <div className='round-end-options-container'>
                     {shouldShowSolution && <Solution />}
-                    {!isRoundWinner && (
-                      <Solution startNextRound={startNextRound} />
-                    )}
+                    {!isRoundWinner && <Solution />}
                     <Button
                       variant='contained'
                       sx={{

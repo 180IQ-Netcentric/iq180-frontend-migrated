@@ -2,11 +2,7 @@ import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SocketContext } from '../../../contexts/socketContext'
 
-type Props = {
-  startNextRound?: () => void
-}
-
-export default function Solution(props: Props) {
+export default function Solution() {
   const { t } = useTranslation()
   const OPERATION_SIGNS = ['+', '-', '×', '÷']
   const { gameInfo } = useContext(SocketContext)
