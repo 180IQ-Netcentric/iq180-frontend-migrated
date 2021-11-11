@@ -515,7 +515,7 @@ const Game = () => {
                         {t('60')}
                       </Button>
                     )}
-                    {!isRoundWinner && !shouldShowSolution && (
+                    {!isRoundWinner && (
                       <Solution startNextRound={startNextRound} />
                     )}
                   </div>
